@@ -48,6 +48,7 @@ class Login extends React.Component {
                 Nome:
                 <input
                   type="text"
+                  id="name"
                   value={ name }
                   data-testid="login-name-input"
                   onChange={ this.validate }
