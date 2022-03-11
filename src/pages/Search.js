@@ -27,6 +27,7 @@ class Search extends React.Component {
       search: '',
       searchFinal: searchToFind,
       isLoading: true,
+      listOfMusics: [],
     });
     const listOfItems = await searchAlbumsAPI(searchToFind);
     this.setState({ isLoading: false, listOfMusics: listOfItems });
