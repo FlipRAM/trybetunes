@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 import { createUser } from '../services/userAPI';
 import Carregando from './Carregando';
 
@@ -68,5 +69,9 @@ class Login extends React.Component {
     );
   }
 }
+
+Login.propTypes = {
+  history: propTypes.shape,
+}.isRequired;
 
 export default Login;

@@ -28,7 +28,12 @@ class Album extends React.Component {
   }
 
   render() {
-    const { listOfMusics, artworkUrl100, collectionName, artistName } = this.state;
+    const {
+      listOfMusics,
+      artworkUrl100,
+      collectionName,
+      artistName,
+    } = this.state;
     return (
       <div data-testid="page-album">
         <Header />
@@ -58,8 +63,7 @@ class Album extends React.Component {
 }
 
 Album.propTypes = {
-  match: propTypes.shape.isRequired,
-  id: propTypes.string.isRequired,
-};
+  match: propTypes.shape,
+}.isRequired;
 
 export default Album;

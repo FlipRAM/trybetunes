@@ -1,6 +1,6 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import { addSong } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 import Carregando from '../pages/Carregando';
 
 class MusicCard extends React.Component {
@@ -9,25 +9,35 @@ class MusicCard extends React.Component {
 
     this.state = {
       isLoading: false,
-      favoritesList: [],
-      isChecked: false,
+      isFavorite: false,
     };
   }
 
+  async componentDidMount() {
+    const { objMusic } = this.props;
+    this.setState({ isLoading: true });
+    const favoritesList = await getFavoriteSongs();
+    const matchFav = favoritesList.find((fav) => fav.trackId === objMusic.trackId);
+    if (matchFav !== undefined) {
+      this.setState({ isLoading: false, isFavorite: true });
+    } if (matchFav === undefined) {
+      this.setState({ isLoading: false, isFavorite: false });
+    }
+  }
+
   saveFavorites = async ({ target }) => {
-    console.log(target.checked);
     const { objMusic } = this.props;
     if (target.checked === true) {
-      this.setState({ isLoading: true, isChecked: true });
+      this.setState({ isLoading: true, isFavorite: true });
       await addSong(objMusic);
       this.setState({ isLoading: false });
     } else {
-      this.setState({ isChecked: false });
+      this.setState({ isFavorite: false });
     }
   }
 
   render() {
-    const { isLoading, isChecked } = this.state;
+    const { isLoading, isFavorite } = this.state;
     const { trackName, previewUrl, trackId } = this.props;
     return (
       <div id="audio">
@@ -47,7 +57,7 @@ class MusicCard extends React.Component {
                 data-testid={ `checkbox-music-${trackId}` }
                 type="checkbox"
                 onChange={ this.saveFavorites }
-                checked={ isChecked }
+                checked={ isFavorite }
               />
               Favorita
             </label>)}
@@ -57,9 +67,10 @@ class MusicCard extends React.Component {
 }
 
 MusicCard.propTypes = {
-  trackName: propTypes.string.isRequired,
-  previewUrl: propTypes.string.isRequired,
-  trackId: propTypes.string.isRequired,
-};
+  trackName: propTypes.string,
+  previewUrl: propTypes.string,
+  trackId: propTypes.number,
+  objMusic: propTypes.shape,
+}.isRequired;
 
 export default MusicCard;
