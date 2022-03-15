@@ -41,10 +41,11 @@ class MusicCard extends React.Component {
   }
 
   removeFavorites = async () => {
-    const { objMusic } = this.props;
+    const { objMusic, showList } = this.props;
     this.setState({ isLoading: true, isFavorite: false });
     await removeSong(objMusic);
     this.setState({ isLoading: false });
+    showList();
   }
 
   render() {
