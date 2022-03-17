@@ -49,8 +49,9 @@ class ProfileEdit extends React.Component {
 
   updateData = async () => {
     const { image, name, email, description } = this.state;
+    const { history } = this.props;
     await updateUser({ name, email, image, description });
-    this.goBackToProfile();
+    history.push('/profile');
   }
 
   render() {
@@ -63,65 +64,68 @@ class ProfileEdit extends React.Component {
       isDisabled,
     } = this.state;
     return (
-      <div data-testid="page-profile-edit">
+      <div id="profile-edit-page">
         <Header />
-        {isLoading
-          ? <Carregando />
-          : (
-            <div className="profile-edit-card">
-              <div className="photo-edit-container">
-                <input
-                  type="text"
-                  data-testid="edit-input-image"
-                  name="image"
-                  value={ image }
-                  onChange={ this.validateForm }
-                />
+        <div data-testid="page-profile-edit">
+          {isLoading
+            ? <Carregando />
+            : (
+              <div className="profile-edit-card">
+                <div className="photo-edit-container">
+                  <input
+                    type="text"
+                    data-testid="edit-input-image"
+                    name="image"
+                    value={ image }
+                    onChange={ this.validateForm }
+                  />
+                </div>
+                <label htmlFor="changeName">
+                  Nome
+                  <input
+                    type="text"
+                    id="changeName"
+                    data-testid="edit-input-name"
+                    name="name"
+                    value={ name }
+                    onChange={ this.validateForm }
+                  />
+                </label>
+                <label htmlFor="changeEmail">
+                  E-mail
+                  <input
+                    type="email"
+                    id="changeEmail"
+                    data-testid="edit-input-email"
+                    name="email"
+                    value={ email }
+                    onChange={ this.validateForm }
+                  />
+                </label>
+                <label htmlFor="changeDescription">
+                  Descrição
+                  <textarea
+                    rows="8"
+                    cols="50"
+                    id="changeDescription"
+                    data-testid="edit-input-description"
+                    name="description"
+                    value={ description }
+                    onChange={ this.validateForm }
+                  />
+                </label>
+                <button
+                  type="button"
+                  data-testid="edit-button-save"
+                  disabled={ isDisabled }
+                  onClick={ this.updateData }
+                >
+                  Salvar
+                </button>
               </div>
-              <label htmlFor="changeName">
-                Nome
-                <input
-                  type="text"
-                  id="changeName"
-                  data-testid="edit-input-name"
-                  name="name"
-                  value={ name }
-                  onChange={ this.validateForm }
-                />
-              </label>
-              <label htmlFor="changeEmail">
-                E-mail
-                <input
-                  type="email"
-                  id="changeEmail"
-                  data-testid="edit-input-email"
-                  name="email"
-                  value={ email }
-                  onChange={ this.validateForm }
-                />
-              </label>
-              <label htmlFor="changeDescription">
-                Descrição
-                <textarea
-                  rows="8"
-                  cols="50"
-                  id="changeDescription"
-                  data-testid="edit-input-description"
-                  name="description"
-                  value={ description }
-                  onChange={ this.validateForm }
-                />
-              </label>
-              <button
-                type="button"
-                data-testid="edit-button-save"
-                disabled={ isDisabled }
-                onClick={ this.updateData }
-              >
-                Salvar
-              </button>
-            </div>
-          )}
+            )}
+          <h2>Editar perfil</h2>
+        </div>
       </div>
     );
   }

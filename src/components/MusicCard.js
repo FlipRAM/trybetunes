@@ -45,7 +45,9 @@ class MusicCard extends React.Component {
     this.setState({ isLoading: true, isFavorite: false });
     await removeSong(objMusic);
     this.setState({ isLoading: false });
-    showList();
+    if (showList !== undefined) {
+      showList();
+    }
   }
 
   render() {
